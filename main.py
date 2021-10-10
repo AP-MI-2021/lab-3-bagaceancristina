@@ -30,8 +30,8 @@ def get_longest_all_perfect_squares(lst):
     '''
     lista_secvente = []
     #lista[start:end]
-    for start in range(0, len(lst)):
-        for end in range(start + 1, len(lst)):
+    for start in range(0, len(lst) + 1):
+        for end in range(start + 1, len(lst) + 1):
             if doar_elem_pp(lst[start:end]):
                 lista_secvente.append(lst[start:end])
 
@@ -42,6 +42,59 @@ def get_longest_all_perfect_squares(lst):
             secv_max = secventa
     return secv_max
 
+
+def nr_de_biti_unu(n):
+    '''
+    Transforma un numar din baza 10 in baza 2 si retine intr-un contor aparitiile bit-ului 1
+    '''
+    contor = 0
+    n2 = int(n)
+    while n2 > 0:
+        if n2 % 2 == 1:
+            contor += 1
+        n2 = n2 // 2
+    return contor
+
+
+def test_nr_biti():
+    assert nr_de_biti_unu(23) == 4
+    assert nr_de_biti_unu(1000) == 6
+    assert nr_de_biti_unu(4755) == 6
+    assert nr_de_biti_unu(2) == 1
+    assert nr_de_biti_unu(11+33) == 3
+    assert nr_de_biti_unu(102*67) == 7
+    assert nr_de_biti_unu(56) == 3
+    assert nr_de_biti_unu(9999) == 8
+
+
+def all_same_bit(lst):
+    '''
+    verifica daca toate elementele unei liste au acelasi numar de biti unu
+    '''
+    test_nr_biti()
+    cont = nr_de_biti_unu(lst[0])
+    for i in lst:
+        if nr_de_biti_unu(i) != cont:
+            return False
+    return True
+
+
+def get_longest_same_bit_counts(lst):
+    '''
+    :param lst: -o lista de numere
+    :return:  -cea mai lunga lista de numere dupa criteriul de la problema 11
+    '''
+    lista_secvente = []
+    for start in range(0, len(lst) + 1):
+        for end in range(start + 1, len(lst) + 1):
+            if all_same_bit(lst[start:end]):
+                lista_secvente.append(lst[start:end])
+
+    secv_max =[]
+    for secventa in lista_secvente:
+        if(len(secventa) > len(secv_max)):
+            secv_max = secventa
+    return secv_max
 
 
 def main():
@@ -56,6 +109,8 @@ def main():
             print(lista)
         elif optiune == '2':
             print(get_longest_all_perfect_squares(lista))
+        elif optiune == '3':
+            print(get_longest_same_bit_counts(lista))
         elif optiune == 'x':
             break
 

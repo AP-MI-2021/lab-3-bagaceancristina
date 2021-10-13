@@ -97,11 +97,56 @@ def get_longest_same_bit_counts(lst):
     return secv_max
 
 
+def numar_divizori(n):
+    '''
+
+    :param n: -un numar de tip int
+    :return:  -numarul de divizori ai numarului n
+    '''
+    contor = 0
+    for divizor in range(1,n):
+        if n % divizor == 0:
+            contor += 1
+    return contor
+
+
+def acelasi_numar_de_divizori(lst):
+    '''
+    functia verifica daca toate numerele din lista au acelasi numar de divizori
+    :param lst: -o lista de numere intregi
+    :return:
+    '''
+    divizori = numar_divizori(lst[0])
+    for numar in lst:
+        if numar_divizori(numar) != divizori:
+            return False
+    return True
+
+
+def get_longest_same_div_count(lst):
+    '''
+
+    :param lst: - lista de numere intregi
+    :return: - cea mai lunga secventa de numere ce au acelasi numar de divizori
+    '''
+    lista_secvente = []
+    for start in range(0, len(lst) + 1):
+        for end in range(start + 1, len(lst) + 1):
+            if acelasi_numar_de_divizori(lst[start:end]):
+                lista_secvente.append(lst[start:end])
+    secventa_maxima = []
+    for secventa in lista_secvente:
+        if len(secventa_maxima) < len(secventa):
+            secventa_maxima = secventa
+    return secventa_maxima
+
+
 def main():
     while True:
         print('1.Citire lista.')
         print('2.Determina cea mai lunga secventa de patrate perfecte.')
         print('3.Determina cea mai lunga secventa de numere cu acelasi numar de biti in reprezentarea binara.')
+        print('4.Determina cea mai lunga secventa de numere ce acelasi numar de divizori.')
         print('x.Iesire.')
         optiune = input('Selectati optiunea : ')
         if optiune == '1':
@@ -111,6 +156,8 @@ def main():
             print(get_longest_all_perfect_squares(lista))
         elif optiune == '3':
             print(get_longest_same_bit_counts(lista))
+        elif optiune == '4':
+            print(get_longest_same_div_count(lista))
         elif optiune == 'x':
             break
 
